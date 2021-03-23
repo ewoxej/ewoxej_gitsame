@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ewoxej_gitsame
 {
-    class SourceModel
+    class InputSource
     {
-        public SourceModel()
+        public InputSource()
         {
             Type = EType.Repository;
         

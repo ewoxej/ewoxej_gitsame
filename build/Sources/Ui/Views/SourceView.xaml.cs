@@ -23,6 +23,7 @@ namespace ewoxej_gitsame
     {
         private string title;
         private bool btnDb;
+        internal SourcesViewModel Model { get; set; }
         public string Title { get { return title; } set 
             {
                 title = value;
@@ -40,15 +41,13 @@ namespace ewoxej_gitsame
         public SourceView()
         {
             InitializeComponent();
-            DataContext = new SourcesViewModel();
+            Model = new SourcesViewModel();
+            DataContext = Model;
         }
 
         private void DeleteItem_Clicked(object sender, RoutedEventArgs e)
         {
-            var ctx = (SourcesViewModel)DataContext;
-            if (ctx == null)
-                return;
-            ctx.RemoveItem();
+            Model.RemoveItem();
         }
         private void AddItem_Clicked(object sender, RoutedEventArgs e)
         {
@@ -56,17 +55,12 @@ namespace ewoxej_gitsame
             if (dialog.ShowDialog() == true)
             {
                 if (dialog.isValidItem())
-                {
-                    var ctx = (SourcesViewModel)DataContext;
-                    if (ctx == null)
-                        return;
-                    ctx.SourcesList.Add(dialog.Item);
-                }
+                    Model.SourcesList.Add(dialog.Item);
             }
         }
         private void UseDb_Clicked(object sender, RoutedEventArgs e)
         {
-
+            Model.UseLocalDb = !Model.UseLocalDb;
         }
     }
 }

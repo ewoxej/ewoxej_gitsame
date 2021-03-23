@@ -21,10 +21,10 @@ namespace ewoxej_gitsame
     /// </summary>
     public partial class AddSourceDialog : Window
     {
-        internal SourceModel Item { get; set; }
+        internal InputSource Item { get; set; }
         public AddSourceDialog()
         {
-            Item = new SourceModel { Type=SourceModel.EType.File};
+            Item = new InputSource { Type=InputSource.EType.File};
             InitializeComponent();
         }
 
@@ -47,11 +47,11 @@ namespace ewoxej_gitsame
         {
             RadioButton radio = (RadioButton)sender;
             if (radio.Name == "rbFile")
-                Item.Type = SourceModel.EType.File;
+                Item.Type = InputSource.EType.File;
             else if (radio.Name == "rbFolder")
-                Item.Type = SourceModel.EType.Folder;
+                Item.Type = InputSource.EType.Folder;
             else if (radio.Name == "rbRepo")
-                Item.Type = SourceModel.EType.Repository;
+                Item.Type = InputSource.EType.Repository;
         }
         public bool isValidItem()
         {
@@ -60,13 +60,18 @@ namespace ewoxej_gitsame
 
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
-            if (Item.Type == SourceModel.EType.Repository)
+            if (Item.Type == InputSource.EType.Repository)
                 Item.Path = (FindName("textBoxRepo") as TextBox).Text;
             DialogResult = true;
         }
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

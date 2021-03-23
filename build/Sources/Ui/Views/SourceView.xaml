@@ -22,7 +22,9 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Name="lTitle" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="22">Источник Х</TextBlock>
+                    <TextBlock Name="lTitle" Grid.Column="0" HorizontalAlignment="Left" 
+                               Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                               VerticalAlignment="Center">Источник Х</TextBlock>
                     <Button Margin="10 5 5 5" Grid.Column="3" Click="DeleteItem_Clicked">
                         <materialDesign:PackIcon Kind="ClearCircle"/>
                     </Button>
@@ -44,7 +46,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <CheckBox Margin="10 10 10 10" Grid.Row="2" Content="Добавить в локальную БД"></CheckBox>
+                <CheckBox Margin="10 10 10 10" Grid.Row="2" Content="Добавить в локальную БД" IsChecked="{Binding Path=AddToDb, Mode=TwoWay}"></CheckBox>
             </Grid>
         </Grid>
     </Border>

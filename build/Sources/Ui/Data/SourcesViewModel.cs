@@ -9,12 +9,13 @@ namespace ewoxej_gitsame
 {
     class SourcesViewModel
     {
-        public ObservableCollection<SourceModel> SourcesList { get; set; }
-
-        public SourceModel CurrentItem { get; set; }
+        public ObservableCollection<InputSource> SourcesList { get; set; }
+        public bool UseLocalDb { get; set; }
+        public InputSource CurrentItem { get; set; }
+        public bool AddToDb { get; set; }
         public SourcesViewModel()
         {
-            SourcesList = new ObservableCollection<SourceModel>();
+            SourcesList = new ObservableCollection<InputSource>();
         }
         public void RemoveItem()
         {
