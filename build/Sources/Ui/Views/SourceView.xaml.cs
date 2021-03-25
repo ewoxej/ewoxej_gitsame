@@ -19,6 +19,7 @@ namespace ewoxej_gitsame
     /// <summary>
     /// Логика взаимодействия для SourceView.xaml
     /// </summary>
+    /// 
     public partial class SourceView : UserControl
     {
         private string title;
@@ -61,6 +62,32 @@ namespace ewoxej_gitsame
         private void UseDb_Clicked(object sender, RoutedEventArgs e)
         {
             Model.UseLocalDb = !Model.UseLocalDb;
+            var listBox = FindName("lbSource") as ListBox;
+            var placeholder = FindName("gridLocalDb") as Grid;
+            var deleteBtn = FindName("deleteBtn") as Button;
+            var addBtn = FindName("addBtn") as Button;
+            var cbAdd = FindName("cbAddToDb") as CheckBox;
+            if( Model.UseLocalDb )
+            {
+                placeholder.Visibility = Visibility.Visible;
+                listBox.Visibility = Visibility.Hidden;
+                cbAdd.Visibility = Visibility.Collapsed;
+                deleteBtn.IsEnabled = false;
+                addBtn.IsEnabled = false;
+            }
+            else
+            {
+                placeholder.Visibility = Visibility.Hidden;
+                listBox.Visibility = Visibility.Visible;
+                cbAdd.Visibility = Visibility.Visible;
+                deleteBtn.IsEnabled = true;
+                addBtn.IsEnabled = true;
+            }
+        }
+
+        private void DeleteAll_Clicked(object sender, RoutedEventArgs e)
+        {
+            Model.SourcesList.Clear();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace ewoxej_gitsame
         public bool AddToDb { get; set; }
         public SourcesViewModel()
         {
+            UseLocalDb = false;
             SourcesList = new ObservableCollection<InputSource>();
         }
         public void RemoveItem()

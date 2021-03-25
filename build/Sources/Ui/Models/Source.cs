@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.ComponentModel.DataAnnotations;
 
 namespace ewoxej_gitsame
 {
@@ -17,7 +18,6 @@ namespace ewoxej_gitsame
             branch = "";
             last_commit_hash = "";
             is_checked = 0;
-            Id = 0;
             Type = 0;
         }
         private string name;
@@ -25,7 +25,6 @@ namespace ewoxej_gitsame
         private string branch;
         private string last_commit_hash;
         private int is_checked;
-        public int Id { get; set; }
         public int Type { get; set; }
 
         public string Name
@@ -37,6 +36,7 @@ namespace ewoxej_gitsame
                 OnPropertyChanged("Name");
             }
         }
+        [Key]
         public string Path
         {
             get { return path; }

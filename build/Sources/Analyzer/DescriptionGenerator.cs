@@ -76,6 +76,55 @@ namespace GitSame.Analyzer
             }
         }
 
+        public static BasicFileDescription LoadDescriptionFromFile(string filepath)
+        {
+
+            if (File.Exists(filepath))
+            {
+                using (FileStream file = new FileStream(filepath, FileMode.Open, System.IO.FileAccess.Read))
+                {
+                    BasicFileDescription instance = new UnknownFileDescription();
+                    var ser = new DataContractJsonSerializer(instance.GetType());
+                    instance = ser.ReadObject(file) as UnknownFileDescription;
+                    if( ((UnknownFileDescription)instance).tokens == null )
+                    {
+                        file.Position = 0;
+                        var inst = new PLLanguageFileDescription();
+                        var ser1 = new DataContractJsonSerializer(inst.GetType());
+                        inst = ser1.ReadObject(file) as PLLanguageFileDescription;
+                        return inst;
+                    }
+                    else
+                    {
+                        return instance;
+                    }
+                }
+            }
+            return new BasicFileDescription();
+
+        }
+
+        public static string GetHash(BasicFileDescription description)
+        {
+            string hash;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                try
+                {
+                    var ser = new DataContractJsonSerializer(typeof(PLLanguageFileDescription));
+                    ser.WriteObject(stream, (PLLanguageFileDescription)description);
+                    hash = Encoding.ASCII.GetString(stream.ToArray());
+                }
+                catch (InvalidCastException)
+                {
+                    var ser = new DataContractJsonSerializer(typeof(UnknownFileDescription));
+                    ser.WriteObject(stream, (UnknownFileDescription)description);
+                    hash = Encoding.ASCII.GetString(stream.ToArray());
+                }
+            }
+            hash = Helper.sha256_hash(hash);
+            return hash;
+        }
         public static BasicFileDescription GenerateDescriptionFromFile(string pathToFile)
         {
             var fileInfo = new FileInfo(pathToFile);

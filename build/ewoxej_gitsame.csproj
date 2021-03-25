@@ -118,6 +118,14 @@
     <Compile Include="Sources\Analyzer\Grammars\GrammarBase.cs" />
     <Compile Include="Sources\Analyzer\Grammars\Java.cs" />
     <Compile Include="Sources\Analyzer\Helper.cs" />
+    <Compile Include="Sources\GitApi\Entities\Branch.cs" />
+    <Compile Include="Sources\GitApi\Entities\Commit.cs" />
+    <Compile Include="Sources\GitApi\Entities\Repo.cs" />
+    <Compile Include="Sources\GitApi\Entities\Tree.cs" />
+    <Compile Include="Sources\GitApi\Entities\User.cs" />
+    <Compile Include="Sources\GitApi\Manager.cs" />
+    <Compile Include="Sources\Ui\Models\ComparsionResult.cs" />
+    <Compile Include="Sources\Ui\Data\ResultsViewModel.cs" />
     <Compile Include="Sources\Ui\Views\AddSourceDialog.xaml.cs">
       <DependentUpon>AddSourceDialog.xaml</DependentUpon>
     </Compile>
@@ -127,6 +135,9 @@
     <Compile Include="Sources\Ui\Models\Source.cs" />
     <Compile Include="Sources\Ui\Models\InputSource.cs" />
     <Compile Include="Sources\Ui\Data\SourcesViewModel.cs" />
+    <Compile Include="Sources\Ui\Views\ResultsDialog.xaml.cs">
+      <DependentUpon>ResultsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Sources\Ui\Views\SourceView.xaml.cs">
       <DependentUpon>SourceView.xaml</DependentUpon>
     </Compile>
@@ -143,6 +154,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Sources\Ui\Views\AddSourceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Sources\Ui\Views\ResultsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -193,9 +208,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sources\GitApi\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

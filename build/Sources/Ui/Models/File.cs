@@ -15,8 +15,8 @@ namespace ewoxej_gitsame
 		private string metainfo;
 		private int is_checked;
 		public int Id { get; set; }
-		public int CreationDate { get; set; }
-		public int? Source { get; set; }
+		public long CreationDate { get; set; }
+		public string Source { get; set; }
 		public string Path { get; set; }
 		public string Hash { get { return hash; } set { hash = value; OnPropertyChanged("Hash"); } }
 		public string Metainfo { get { return metainfo; } set { metainfo = value; OnPropertyChanged("Metainfo"); } }

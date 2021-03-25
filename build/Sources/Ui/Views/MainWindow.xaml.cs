@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ewoxej_gitsame.Sources.Ui.Views;
 
 namespace ewoxej_gitsame
 {
@@ -22,6 +23,7 @@ namespace ewoxej_gitsame
     public partial class MainWindow : Window
     {
         ApplicationContext db;
+        InputSourcesManager manager;
         public MainWindow()
         {
             InitializeComponent();
@@ -40,6 +42,8 @@ namespace ewoxej_gitsame
             var lvFiles = FindName("lvFiles") as ListView;
             lvSources.ItemsSource = db.Sources.Local.ToBindingList();
             lvFiles.ItemsSource = db.Files.Local.ToBindingList();
+
+            manager = new InputSourcesManager((FindName("source1") as SourceView).Model, (FindName("source2") as SourceView).Model, db);
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -55,6 +59,13 @@ namespace ewoxej_gitsame
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void Run_Click(object sender, RoutedEventArgs e)
+        {
+            manager.run();
+            ResultsDialog dlg = new ResultsDialog( manager.Results, this );
+            dlg.Show();
         }
     }
 }

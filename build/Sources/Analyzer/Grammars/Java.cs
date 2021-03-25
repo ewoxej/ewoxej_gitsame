@@ -13,7 +13,7 @@ namespace GitSame.Analyzer.Grammars
     {
         public Java()
         {
-            pathToGrammar = "../../GrammarFiles/java.json";
+            pathToGrammar = "../../build/Resources/Grammars/java.json";
         }
         public override List<String> PostTokenizer(string[] tokens)
         {
