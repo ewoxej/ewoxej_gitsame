@@ -7,31 +7,43 @@
         mc:Ignorable="d"
         xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="600" Width="1080" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource AppWindowStyle}">
     <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
         <DataTemplate x:Key="sourceDatabaseTemplate">
-            <Grid Height="70" >
+            <Grid Height="45" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition Width="400"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <materialDesign:PackIcon VerticalAlignment="Center" Name="TypeIcon" Width="50" Height="50" Kind="Github" Grid.Column="0"/>
+                <materialDesign:PackIcon VerticalAlignment="Center" Name="TypeIcon" 
+                                         Width="{StaticResource AppMidIcon}" 
+                                         Height="{StaticResource AppMidIcon}" Kind="Github" Grid.Column="0"/>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=Name}" FontSize="18" Style="{StaticResource MaterialDesignHeadline5TextBlock}"></TextBlock>
-                    <TextBlock Grid.Row="1" Text="{Binding Path=Path}" FontSize="12" Foreground="Gray"></TextBlock>
+                    <TextBlock Grid.Row="0" VerticalAlignment="Center" Text="{Binding Path=Name}" FontSize="13" FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}"></TextBlock>
+                    <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="{Binding Path=Path}" FontSize="11" Foreground="Gray"></TextBlock>
                     <StackPanel Grid.Row="2" Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=Branch}" FontSize="12"></TextBlock>
-                        <TextBlock Text=" - " FontSize="12"></TextBlock>
-                        <TextBlock Text="{Binding Path=LastCommitHash}" FontSize="12"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Path=Branch}" FontSize="11"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text=" - " FontSize="11"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Path=LastCommitHash}" FontSize="11"></TextBlock>
                     </StackPanel>
                 </Grid>
-                <CheckBox Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30"></CheckBox>
+                <CheckBox Grid.Column="2" VerticalAlignment="Center" 
+                          CommandParameter="{Binding Path=Path}"
+                          HorizontalAlignment="Right" Width="30" Height="30"
+                          Checked="OnSourceCheckChanged"
+                          Unchecked="OnSourceCheckChanged"
+                          IsChecked="{Binding Path=IsCheckedBool, Mode=TwoWay}"></CheckBox>
             </Grid>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding Type}" Value="2">
@@ -39,132 +51,152 @@
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
+        <DataTemplate x:Key="fileDatabaseTemplate">
+            <Grid Height="45" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <materialDesign:PackIcon VerticalAlignment="Center" Width="{StaticResource AppMidIcon}"
+                                         Height="{StaticResource AppMidIcon}" Kind="File" Grid.Column="0"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" VerticalAlignment="Center" Text="{Binding Path=Path}" FontSize="13" FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}"></TextBlock>
+                    <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="{Binding Path=Source}" FontSize="11" Foreground="Gray"></TextBlock>
+                    <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="{Binding Path=DateTimeStr}" FontSize="11"></TextBlock>
+                </Grid>
+                <CheckBox Grid.Column="2" IsChecked="{Binding Path=IsCheckedBool, Mode=TwoWay}"
+                          VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30"></CheckBox>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
-    <Grid>
-        <Grid Height="60" VerticalAlignment="Top" Background="{StaticResource PrimaryHueMidBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Rectangle Width="1000" Grid.Column="0" Fill="{StaticResource PrimaryHueMidBrush}" MouseDown="TextBlock_MouseDown"></Rectangle>
-            <TextBlock Grid.Column="0" MouseDown="TextBlock_MouseDown" Text="GitSame" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Champagne &amp; Limousines" />
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}"
+    <Border BorderBrush= "{StaticResource PrimaryHueMidBrush}" BorderThickness="2">
+        <Grid>
+            <Grid Height="60" VerticalAlignment="Top" Background="{StaticResource PrimaryHueMidBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Rectangle Width="1000" Grid.Column="0" Fill="{StaticResource PrimaryHueMidBrush}" MouseDown="TextBlock_MouseDown"></Rectangle>
+                <TextBlock Grid.Column="0" MouseDown="TextBlock_MouseDown" Text="GitSame" Style="{StaticResource AppHeaderTitleStyle}" />
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}"
                     Click="Minimize_Click">
-                <materialDesign:PackIcon Kind="WindowMinimize"/>
-            </Button>
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}"
+                    <materialDesign:PackIcon Kind="WindowMinimize"/>
+                </Button>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}"
                     Click="Close_Click">
-                <materialDesign:PackIcon Kind="WindowClose"/>
-            </Button>
-        </Grid>
-        <Grid Margin="0 60 0 0">
-            <dragablz:TabablzControl>
-                <dragablz:TabablzControl.InterTabController>
-                    <dragablz:InterTabController/>
-                </dragablz:TabablzControl.InterTabController>
-                <TabItem Header="Главная">
-                    <Grid >
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid Margin="10 10 10 10" Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <local:SourceView x:Name = "source1" Title="Источник 1" EnableDbButton="False" Margin="10 10 10 10" Grid.Column="0"/>
-                            <local:SourceView x:Name = "source2" Title="Источник 2" EnableDbButton="True" Margin="10 10 10 10" Grid.Column="1"/>
+                    <materialDesign:PackIcon Kind="WindowClose"/>
+                </Button>
+            </Grid>
+            <Grid Margin="0 60 0 0">
+                <dragablz:TabablzControl >
+                    <TabItem Header="Главная" >
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <local:SourceView x:Name = "source1" Title="Источник 1"
+                                              ItemAdded="source_ItemAdded"
+                                              EnableDbButton="False" Grid.Column="0"/>
+                                <local:SourceView x:Name = "source2" Title="Источник 2"
+                                              ItemAdded="source_ItemAdded"
+                                              EnableDbButton="True" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="1" Name="RunBtn" IsEnabled="False" Content="Запуск" Click="Run_Click"/>
+                            </Grid>
                         </Grid>
-                        <Grid Margin="10 10 10 10" Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <CheckBox Grid.Column="0" Content="Сравнить каждый с каждым"/>
-                            <Button Grid.Column="1" Content="Запуск" Click="Run_Click"/>
+                    </TabItem>
+                    <TabItem Header="Управление БД" Name ="DatabaseTab" 
+                         Selector.Selected="DbTab_Selected"
+                         Selector.Unselected="DbTab_Unselected">
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                                <Button Name="CheckAll" Click="CheckAll_Click">Отметить все</Button>
+                                <Button Name="UncheckAll" Margin="5" Click="UncheckAll_Click">Снять отметки</Button>
+                                <Button Name="DbDelete" Click="DbDelete_Click">Удалить</Button>
+                            </StackPanel>
+                            <dragablz:TabablzControl Margin="10" Grid.Row="0" TabStripPlacement="Left" Background="{StaticResource MaterialDesignBackground}">
+                                <TabItem Name="DbTabSources">
+                                    <TabItem.Header>
+                                        <materialDesign:PackIcon Kind="Collection"/>
+                                    </TabItem.Header>
+                                    <ListView Name="lvSources" ItemTemplate="{StaticResource sourceDatabaseTemplate}"
+                                          HorizontalContentAlignment="Stretch">
+                                    </ListView>
+                                </TabItem>
+                                <TabItem Name="DbTabFiles">
+                                    <TabItem.Header>
+                                        <materialDesign:PackIcon Kind="File"/>
+                                    </TabItem.Header>
+                                    <ListView Name="lvFiles" ItemTemplate="{StaticResource fileDatabaseTemplate}" HorizontalContentAlignment="Stretch">
+                                    </ListView>
+                                </TabItem>
+                            </dragablz:TabablzControl>
                         </Grid>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="Управление БД">
-                    <Grid Margin="10 10 10 10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                    <dragablz:TabablzControl Grid.Column="0" TabStripPlacement="Left" Foreground="{StaticResource MaterialDesignBackground}">
-                        <TabItem>
-                            <TabItem.Header>
-                                <materialDesign:PackIcon Kind="Collection"/>
-                            </TabItem.Header>
-                                <ListView Name="lvSources" ItemTemplate="{StaticResource sourceDatabaseTemplate}">
-                                </ListView>
-                        </TabItem>
-                        <TabItem>
-                            <TabItem.Header>
-                                <materialDesign:PackIcon Kind="File"/>
-                            </TabItem.Header>
-                                <ListView Name="lvFiles">
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Source}" Width="150">Источник</GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Path}" Width="150">Путь</GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Path=IsChecked}" Width="150">Отметка</GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Path=CreationDate}" Width="200">Дата создания</GridViewColumn>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </TabItem>
-                    </dragablz:TabablzControl>
-                        <StackPanel Grid.Column="1">
-                            <Button>Remove</Button>
-                        </StackPanel>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="Параметры">
-                    <StackPanel Orientation="Vertical" Margin="10" Width="400" HorizontalAlignment="Left">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                        <TextBlock Text="Фильтры" Style="{StaticResource MaterialDesignHeadline4TextBlock}"
-                                   Grid.Column="0"></TextBlock>
-                            <Button Grid.Column="1" Margin="4">
-                                <materialDesign:PackIcon Kind="Edit"/>
-                            </Button>
-                            <Button Grid.Column="2">
-                                <materialDesign:PackIcon Kind="Minus"/>
-                            </Button>
-                            <Button Grid.Column="3" Margin="4">
-                                <materialDesign:PackIcon Kind="Plus"/>
-                            </Button>
-                        </Grid>
-                        <Border BorderThickness="1" BorderBrush="{StaticResource PrimaryHueMidBrush}">
-                            <ListBox Height="150"></ListBox>
-                        </Border>
-                        <CheckBox Margin="5">Разрешить регулярные выражения</CheckBox>
-                        <TextBlock Text="Анализ" Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                    </TabItem>
+                    <TabItem Header="Параметры">
+                        <StackPanel Orientation="Vertical" Margin="10" Width="400" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Фильтры" 
+                                           Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                                           FontSize="{StaticResource AppMidIcon}"
+                                           Margin="10"
+                                           Grid.Column="0"/>
+                            </Grid>
+                            <TextBox Height="150" Name="FiltersTextBox" BorderThickness="1"
+                                     Margin="10 0 5 10"
+                                     BorderBrush="{StaticResource PrimaryHueMidBrush}"
+                                     AcceptsReturn="True"
+                                     Text="{Binding Path=Settings.filters, Converter={StaticResource listToText}, Mode=TwoWay}"></TextBox>
+                            <CheckBox Margin="10 0 5 10" IsChecked="{Binding Settings.allowRegExp, Mode=TwoWay}">Разрешить регулярные выражения</CheckBox>
+                            <TextBlock Visibility="Collapsed" Text="Анализ" Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    ></TextBlock>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock>Быстро</TextBlock>
-                            <Slider Margin="5" Value="2" Minimum="1" Maximum="3" Width="100"
+                            <StackPanel Visibility="Collapsed" Orientation="Horizontal">
+                                <TextBlock>Быстро</TextBlock>
+                                <Slider Margin="5" Value="{Binding Settings.AnalysisDepth, Mode=TwoWay}" Minimum="1" Maximum="3" Width="100"
                                         IsSnapToTickEnabled="True"
                                         Ticks="1 2 3"
-                                    TickPlacement="BottomRight"
+                                        TickPlacement="BottomRight"
                                         TickFrequency="1"/>
-                            <TextBlock>Точно</TextBlock>
+                                <TextBlock>Точно</TextBlock>
+                            </StackPanel>
+                            <TextBlock  Text="Управление БД" 
+                                        Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                                        FontSize="{StaticResource AppMidIcon}"
+                                        Margin="10"
+                                        />
+                            <Button Name="CleanDb" Margin="10 0 0 0" HorizontalAlignment="Left" Click="CleanDb_Click">Очистить БД</Button>
                         </StackPanel>
-                        <CheckBox Margin="5">Искать автоплагиат</CheckBox>
-                        <TextBlock Text="Управление БД" Style="{StaticResource MaterialDesignHeadline4TextBlock}">
-                        </TextBlock>
-                        <Button Margin="5">Очистить БД</Button>
-                    </StackPanel>
-                </TabItem>
-            </dragablz:TabablzControl>
+                    </TabItem>
+                </dragablz:TabablzControl>
+            </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </Window>

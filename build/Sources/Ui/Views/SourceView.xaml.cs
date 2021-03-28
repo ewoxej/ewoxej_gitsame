@@ -25,6 +25,7 @@ namespace ewoxej_gitsame
         private string title;
         private bool btnDb;
         internal SourcesViewModel Model { get; set; }
+        public event EventHandler ItemAdded;
         public string Title { get { return title; } set 
             {
                 title = value;
@@ -56,7 +57,10 @@ namespace ewoxej_gitsame
             if (dialog.ShowDialog() == true)
             {
                 if (dialog.isValidItem())
+                {
                     Model.SourcesList.Add(dialog.Item);
+                    ItemAdded(this, e);
+                }
             }
         }
         private void UseDb_Clicked(object sender, RoutedEventArgs e)
@@ -83,6 +87,7 @@ namespace ewoxej_gitsame
                 deleteBtn.IsEnabled = true;
                 addBtn.IsEnabled = true;
             }
+            ItemAdded(this, e);
         }
 
         private void DeleteAll_Clicked(object sender, RoutedEventArgs e)

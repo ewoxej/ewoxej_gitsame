@@ -1,5 +1,4 @@
-﻿using ewoxej_gitsame.Sources.Ui.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using ewoxej_gitsame.Models;
+
 namespace ewoxej_gitsame.Sources.Ui.Views
 {
     /// <summary>
@@ -23,13 +24,20 @@ namespace ewoxej_gitsame.Sources.Ui.Views
     {
         private ResultsViewModel model;
         private Window window;
-        public ResultsDialog(ObservableCollection<ComparsionResult> res, Window mainWindow)
+        private ApplicationContext db;
+        public ResultsDialog(Window mainWindow, ApplicationContext db)
         {
             InitializeComponent();
-            model = new ResultsViewModel { Results = res };
-            DataContext = model;
             window = mainWindow;
-            mainWindow.Hide();
+        }
+        public void setupModel(List<ComparsionResult> res )
+        {
+            var collection = new ObservableCollection<ComparsionResult>();
+            foreach( var i in res)
+                collection.Add(i);
+
+            model = new ResultsViewModel { Results = collection };
+            DataContext = model;
         }
         private void Close_Click(object sender, RoutedEventArgs e)
         {
@@ -48,8 +56,16 @@ namespace ewoxej_gitsame.Sources.Ui.Views
 
         private void fileClick( File fileToOpen )
         {
-            if (Uri.IsWellFormedUriString( fileToOpen.Source, UriKind.Absolute))
-                System.Diagnostics.Process.Start(fileToOpen.Source + "/blob/master/" + fileToOpen.Path);
+            if (Uri.IsWellFormedUriString(fileToOpen.Source, UriKind.Absolute))
+            {
+                var src = db.Sources.Where(p => p.Path == fileToOpen.Source);
+                string branch = "master";
+                if (src.Count() > 0)
+                    if( !String.IsNullOrEmpty( src.ElementAt(0).Branch ))
+                        branch = src.ElementAt(0).Branch;
+
+                System.Diagnostics.Process.Start(fileToOpen.Source + "/blob/" +branch+"/"+ fileToOpen.Path);
+            }
             else
                 System.Diagnostics.Process.Start(fileToOpen.Path);
         }
@@ -65,7 +81,7 @@ namespace ewoxej_gitsame.Sources.Ui.Views
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Hide();
             window.Show();
         }
     }

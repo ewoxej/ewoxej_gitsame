@@ -4,14 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:local="clr-namespace:ewoxej_gitsame" d:DataContext="{d:DesignInstance Type=local:Source}"
+             xmlns:localModels="clr-namespace:ewoxej_gitsame.Models"
+             xmlns:local="clr-namespace:ewoxej_gitsame" 
+             d:DataContext="{d:DesignInstance Type=localModels:Source}"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="400" >
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanVisibleConverter" />
+        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
     </UserControl.Resources>
-    <Border BorderBrush= "{StaticResource PrimaryHueDarkBrush}" BorderThickness="1">
-        <Grid Margin="10 10 10 10" >
+    <Border BorderBrush= "{StaticResource PrimaryHueDarkBrush}" BorderThickness="1" Margin="10">
+        <Grid Margin="10" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -26,16 +31,17 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Name="lTitle" Grid.Column="0" HorizontalAlignment="Left" 
-                               Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                               Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                               FontSize="{StaticResource AppMidIcon}"
                                VerticalAlignment="Center">Источник Х</TextBlock>
-                    <Button Name="deleteBtn" Margin="10 5 5 5" Grid.Column="3" Click="DeleteAll_Clicked">
-                        <materialDesign:PackIcon Kind="ClearCircle"/>
+                    <Button Name="deleteBtn" Grid.Column="3" Click="DeleteAll_Clicked">
+                        <materialDesign:PackIcon Kind="Remove"/>
                     </Button>
-                    <Button Name="addBtn" Margin="5 5 5 5" Grid.Column="2" Click="AddItem_Clicked">
+                    <Button Name="addBtn" Grid.Column="2" Click="AddItem_Clicked">
                         <materialDesign:PackIcon Kind="Add"/>
                     </Button>
-                    <Button Name="bDatabase" Margin="5 5 10 5" Grid.Column="1" Click="UseDb_Clicked">
-                        <materialDesign:PackIcon Kind="Database"/>
+                    <Button Name="bDatabase" Grid.Column="1" Click="UseDb_Clicked">
+                        <materialDesign:PackIcon Kind="Collection"/>
                     </Button>
                 </Grid>
                 <ListBox Name="lbSource" Grid.Row="1" ItemsSource="{Binding Path=SourcesList}"
@@ -49,41 +55,52 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Width="20" Height="20" Grid.Column="0" Kind="{Binding Path=IconKind}"/>
+                                <materialDesign:PackIcon Width="{StaticResource AppSmallIcon}" 
+                                                         Height="{StaticResource AppSmallIcon}"
+                                                         VerticalAlignment="Center"
+                                                         Grid.Column="0" Kind="{Binding Path=IconKind}"/>
                                 <TextBlock Grid.Column="1" 
+                                           Margin="5"
                                            VerticalAlignment="Center"
-                                           HorizontalAlignment="Stretch"
-                                           Text="{Binding Path=FriendlyName}"/>
-                                <Button Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Left"
+                                           Text="{Binding Path=FriendlyName}"
+                                           Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                <Button Margin="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" 
                                         Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, 
                                         Path=IsSelected, Converter={StaticResource booleanVisibleConverter}}"
-                                        Background="Transparent"
-                                        BorderThickness="0"
+                                        Foreground="Black"
+                                        Style="{StaticResource MaterialDesignFlatButton}"
                                         Click="DeleteItem_Clicked">
-                                    <materialDesign:PackIcon Width="20" Height="20" Kind="Close"/>
+                                    <materialDesign:PackIcon Width="{StaticResource AppSmallIcon}"
+                                        Height="{StaticResource AppSmallIcon}" Kind="Close"/>
                                 </Button>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Grid Name="gridLocalDb" Grid.Row="1" Background="{StaticResource PrimaryHueMidBrush}"
+                <Grid Name="gridLocalDb" Grid.Row="1" 
                       Visibility="Hidden">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <materialDesign:PackIcon Grid.Row="0"
                                              Kind="DatabaseLockOutline"
-                                             HorizontalAlignment="Center" VerticalAlignment="Center"
-                                             Width="80" Height="80"></materialDesign:PackIcon>
-                        <TextBlock Grid.Row="1"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" 
+                                             VerticalAlignment="Bottom"
+                                             Width="{StaticResource AppBigIcon}" 
+                                             Height="{StaticResource AppBigIcon}"/>
+                    <TextBlock Grid.Row="1"
                                Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                               TextWrapping="WrapWithOverflow">
-                            Используется локальная БД</TextBlock>
+                               FontSize="{StaticResource AppMidIcon}"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top"
+                               TextWrapping="WrapWithOverflow" 
+                               Text="Используется 
+                               локальная БД"/>
                 </Grid>
                 <CheckBox Name="cbAddToDb"
-                          Margin="10 10 10 10" 
+                          Margin="10" 
                           Grid.Row="2"
                           Content="Добавить в локальную БД" IsChecked="{Binding Path=AddToDb, Mode=TwoWay}"></CheckBox>
             </Grid>

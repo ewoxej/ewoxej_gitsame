@@ -4,13 +4,14 @@
              xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
              xmlns:local="clr-namespace:ewoxej_gitsame"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              StartupUri="Sources/Ui/Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Amber.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
 
                 <ResourceDictionary>
                     <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Primary100}"/>
@@ -30,7 +31,32 @@
                 <!-- Include the Dragablz Material Design style -->
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-
+                <ResourceDictionary>
+                    <local:ListToTextConverter x:Key="listToText" />
+                    <sys:Double x:Key="AppSmallMargin">5</sys:Double>
+                    <sys:Double x:Key="AppMargin">10</sys:Double>
+                    <sys:Double x:Key="AppSmallIcon">24</sys:Double>
+                    <sys:Double x:Key="AppMidIcon">32</sys:Double>
+                    <sys:Double x:Key="AppBigIcon">64</sys:Double>
+                    <sys:Int32 x:Key="AppXBigIcon">80</sys:Int32>
+                    <Style x:Key="AppWindowStyle" TargetType="Window" BasedOn="{StaticResource MaterialDesignWindow}">
+                        <Setter Property="Width" Value="1000"/>
+                        <Setter Property="Height" Value="600"/>
+                        <Setter Property="ResizeMode" Value="NoResize"/>
+                        <Setter Property="WindowStyle" Value="None"/>
+                    </Style>
+                    <Style x:Key="AppDialogStyle" TargetType="Window"
+                          BasedOn="{StaticResource AppWindowStyle}">
+                        <Setter Property="Width" Value="500"/>
+                        <Setter Property="Height" Value="270"/>
+                    </Style>
+                    <Style x:Key="AppHeaderTitleStyle" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline2TextBlock}">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="FontSize" Value="20"/>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- tell Dragablz tab control to use the Material Design theme -->

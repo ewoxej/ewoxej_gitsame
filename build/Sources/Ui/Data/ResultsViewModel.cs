@@ -1,11 +1,11 @@
-﻿using ewoxej_gitsame.Sources.Ui.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using ewoxej_gitsame.Models;
 namespace ewoxej_gitsame
 {
     class ResultsViewModel

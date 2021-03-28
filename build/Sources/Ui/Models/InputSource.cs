@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ewoxej_gitsame
+namespace ewoxej_gitsame.Models
 {
-    class InputSource
+    public class InputSource
     {
         public InputSource()
         {
@@ -34,14 +34,14 @@ namespace ewoxej_gitsame
                     var tokens = path.Split('/');
                     FriendlyName = tokens.Last();
                 }
-                else if( Type == EType.File )
+                else if( Type == EType.File || Type == EType.Folder )
                 {
                     FriendlyName = System.IO.Path.GetFileName(value);
                 }
-                else if( Type == EType.Folder)
-                {
-                    FriendlyName = System.IO.Path.GetDirectoryName(value);
-                }
+                //else if( Type == EType.Folder)
+                //{
+                //    FriendlyName = System.IO.Path.Get
+                //}
             }
         }
 

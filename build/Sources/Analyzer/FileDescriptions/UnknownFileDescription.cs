@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
+using ewoxej_gitsame;
 namespace GitSame.Analyzer.FileDescriptions
 {
     public class UnknownFileDescription : BasicFileDescription

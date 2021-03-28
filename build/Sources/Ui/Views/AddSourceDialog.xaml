@@ -6,15 +6,24 @@
         xmlns:local="clr-namespace:ewoxej_gitsame"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="AddSourceDialog" Height="250" Width="550"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
-    <Border BorderBrush= "{StaticResource SecondaryAccentBrush}" BorderThickness="2">
-        <Grid>
-            <Grid.Resources>
-                <Style TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignRadioButton}">
-                    <Setter Property="Margin" Value="8,8,10,8"/>
-                </Style>
-            </Grid.Resources>
+        WindowStartupLocation="CenterScreen" 
+        Style="{StaticResource AppDialogStyle}" >
+    <Window.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignRadioButton}">
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+    </Window.Resources>
+<Border BorderBrush= "{StaticResource PrimaryHueMidBrush}" BorderThickness="2">
+        <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -30,33 +39,32 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Rectangle Width="540" Grid.Column="0" Fill="{StaticResource PrimaryHueMidBrush}" MouseDown="TextBlock_MouseDown"></Rectangle>
-                <TextBlock Text="Добавить" MouseDown="TextBlock_MouseDown" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Champagne &amp; Limousines" />
-                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}"
+                <TextBlock Style="{StaticResource AppHeaderTitleStyle}" Text="Добавить" MouseDown="TextBlock_MouseDown"/>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2"
                     Click="Close_Click">
                     <materialDesign:PackIcon Kind="WindowClose"/>
                 </Button>
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="0 5 0 0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <RadioButton GroupName="GroupSource" Name="rbFile" Content="Файл" Grid.Column="0" Click="RadioButton_Click" IsChecked="True"></RadioButton>
                 <TextBlock Name="tbFile" Grid.Column="1"></TextBlock>
-                <Button Content="Обзор" Name="bBrowseFile" HorizontalAlignment="Right" Margin="5 5 5 5 " Grid.Column="2" Click="Browse_Click"></Button>
+                <Button Content="Обзор" Name="bBrowseFile" Grid.Column="2" Click="Browse_Click"></Button>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition ></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <RadioButton GroupName="GroupSource" Name="rbFolder"
                              Content="Папка" Grid.Column="0" Click="RadioButton_Click"></RadioButton>
                 <TextBlock Name="tbFolder" Grid.Column="1"></TextBlock>
-                <Button Content="Обзор" Name="bBrowseFolder" HorizontalAlignment="Right"
-                        Grid.Column="2" Margin="5 5 5 5 " Click="Browse_Click"></Button>
+                <Button Content="Обзор" Name="bBrowseFolder" Grid.Column="2" Click="Browse_Click"></Button>
 
             </Grid>
             <Grid Grid.Row="3">
@@ -66,9 +74,12 @@
                 </Grid.ColumnDefinitions>
                 <RadioButton GroupName="GroupSource" Name="rbRepo" 
                              Content="Репозиторий" Grid.Column="0" Click="RadioButton_Click"></RadioButton>
-                <TextBox Name="textBoxRepo" ToolTip="URL" Grid.Column="1"></TextBox>
+                <TextBox Name="textBoxRepo" Margin="5" Grid.Column="1"
+                         TextChanged="textBoxRepo_TextChanged"
+                         FontFamily="{StaticResource MaterialDesignFont}" FontSize="16"></TextBox>
             </Grid>
-            <Button Margin="5 5 5 5" Grid.Row="5" IsDefault ="True" Click="Accept_Click" Content="Ok" HorizontalAlignment="Right"></Button>
+            <Button Grid.Row="5" Name="BtnOk" 
+                    IsDefault ="True" Click="Accept_Click" Content="Ok" IsEnabled="False"></Button>
         </Grid>
     </Border>
 </Window>

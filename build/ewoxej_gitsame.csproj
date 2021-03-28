@@ -117,13 +117,14 @@
     <Compile Include="Sources\Analyzer\Grammars\Common.cs" />
     <Compile Include="Sources\Analyzer\Grammars\GrammarBase.cs" />
     <Compile Include="Sources\Analyzer\Grammars\Java.cs" />
-    <Compile Include="Sources\Analyzer\Helper.cs" />
     <Compile Include="Sources\GitApi\Entities\Branch.cs" />
     <Compile Include="Sources\GitApi\Entities\Commit.cs" />
     <Compile Include="Sources\GitApi\Entities\Repo.cs" />
     <Compile Include="Sources\GitApi\Entities\Tree.cs" />
     <Compile Include="Sources\GitApi\Entities\User.cs" />
     <Compile Include="Sources\GitApi\Manager.cs" />
+    <Compile Include="Sources\Settings.cs" />
+    <Compile Include="Sources\Helper.cs" />
     <Compile Include="Sources\Ui\Models\ComparsionResult.cs" />
     <Compile Include="Sources\Ui\Data\ResultsViewModel.cs" />
     <Compile Include="Sources\Ui\Views\AddSourceDialog.xaml.cs">
@@ -135,6 +136,9 @@
     <Compile Include="Sources\Ui\Models\Source.cs" />
     <Compile Include="Sources\Ui\Models\InputSource.cs" />
     <Compile Include="Sources\Ui\Data\SourcesViewModel.cs" />
+    <Compile Include="Sources\Ui\Views\ProgressDialog.xaml.cs">
+      <DependentUpon>ProgressDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Sources\Ui\Views\ResultsDialog.xaml.cs">
       <DependentUpon>ResultsDialog.xaml</DependentUpon>
     </Compile>
@@ -154,6 +158,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Sources\Ui\Views\AddSourceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Sources\Ui\Views\ProgressDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

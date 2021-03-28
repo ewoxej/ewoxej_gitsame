@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
+using ewoxej_gitsame.Models;
+
 namespace ewoxej_gitsame
 {
     /// <summary>
@@ -40,6 +42,7 @@ namespace ewoxej_gitsame
                 Item.Path = dlg.FileName;
                 var label = FindName(dlg.IsFolderPicker ? "tbFolder" : "tbFile") as TextBlock;
                 label.Text = dlg.FileName;
+                BtnOk.IsEnabled = true;
             }
         }
 
@@ -47,11 +50,29 @@ namespace ewoxej_gitsame
         {
             RadioButton radio = (RadioButton)sender;
             if (radio.Name == "rbFile")
+            {
                 Item.Type = InputSource.EType.File;
+                if (!String.IsNullOrEmpty(tbFile.Text))
+                    BtnOk.IsEnabled = true;
+                else
+                    BtnOk.IsEnabled = false;
+            }
             else if (radio.Name == "rbFolder")
+            {
                 Item.Type = InputSource.EType.Folder;
+                if (!String.IsNullOrEmpty(tbFolder.Text))
+                    BtnOk.IsEnabled = true;
+                else
+                    BtnOk.IsEnabled = false;
+            }
             else if (radio.Name == "rbRepo")
+            {
                 Item.Type = InputSource.EType.Repository;
+                if (!String.IsNullOrEmpty(textBoxRepo.Text))
+                    BtnOk.IsEnabled = true;
+                else
+                    BtnOk.IsEnabled = false;
+            }
         }
         public bool isValidItem()
         {
@@ -61,7 +82,21 @@ namespace ewoxej_gitsame
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
             if (Item.Type == InputSource.EType.Repository)
+            {
                 Item.Path = (FindName("textBoxRepo") as TextBox).Text;
+                var url = GitApi.Manager.toApiUrl(Item.Path);
+                try
+                {
+                    var repo = GitApi.Manager.doRequest<GitApi.Repo>(url);
+                    if (String.IsNullOrEmpty(repo.name))
+                        throw new ArgumentException("Empty repo name");
+                }
+                catch( Exception ex)
+                {
+                    textBoxRepo.BorderBrush = Brushes.Red;
+                    return;
+                }
+            }
             DialogResult = true;
         }
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -72,6 +107,17 @@ namespace ewoxej_gitsame
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void textBoxRepo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            textBoxRepo.BorderBrush = Brushes.Black;
+            if (rbRepo.IsChecked != true)
+                return;
+            if( !String.IsNullOrEmpty( textBoxRepo.Text ))
+                BtnOk.IsEnabled = true;
+            else
+                BtnOk.IsEnabled = false;
         }
     }
 }

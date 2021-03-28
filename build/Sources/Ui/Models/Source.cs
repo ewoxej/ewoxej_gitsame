@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ewoxej_gitsame
+namespace ewoxej_gitsame.Models
 {
     public class Source : INotifyPropertyChanged
     {
@@ -73,6 +74,9 @@ namespace ewoxej_gitsame
                 OnPropertyChanged("IsChecked");
             }
         }
+
+        [NotMapped]
+        public bool IsCheckedBool { get { return (is_checked == 1); } set { IsChecked = (value) ? 1 : 0; } }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

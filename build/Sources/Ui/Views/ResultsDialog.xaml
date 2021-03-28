@@ -4,108 +4,153 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ewoxej_gitsame.Sources.Ui.Views"
+        xmlns:models="clr-namespace:ewoxej_gitsame.Models"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="600" Width="1080" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource AppWindowStyle}">
     <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
         <DataTemplate x:Key="ListItemTemplate">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Path=File1.Path}" Style="{StaticResource MaterialDesignHeadline2TextBlock}" FontSize="12"></TextBlock>
-                <TextBlock Text=" = " FontSize="12" Style="{StaticResource MaterialDesignHeadline2TextBlock}"></TextBlock>
-                <TextBlock Text="{Binding Path=File2.Path}" Style="{StaticResource MaterialDesignHeadline2TextBlock}" FontSize="12"></TextBlock>
-                <TextBlock HorizontalAlignment="Right" Text="{Binding Path=SimilarityRate, StringFormat=' {0}%'}" Style="{StaticResource MaterialDesignHeadline4TextBlock}" FontSize="12"></TextBlock>
-            </StackPanel>
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Path=File1.Path, StringFormat=' {0} = '}"/>
+                <TextBlock Grid.Column="1" Text="{Binding Path=File2.Path}"/>
+                <TextBlock Grid.Column="2" Text="{Binding Path=SimilarityRate, StringFormat=' {0}%'}" 
+                           HorizontalAlignment="Right" FontWeight="SemiBold"/>
+            </Grid>
         </DataTemplate>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Height="60" VerticalAlignment="Top" Background="{StaticResource PrimaryHueMidBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" BorderThickness="0" Background="Transparent"
+    <Border BorderBrush= "{StaticResource PrimaryHueMidBrush}" BorderThickness="2">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Height="60" VerticalAlignment="Top" Background="{StaticResource PrimaryHueMidBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" BorderThickness="0" Background="Transparent"
                     Click="Back_Click">
-                <materialDesign:PackIcon Kind="ArrowBack"/>
-            </Button>
-            <Rectangle Width="1000" Grid.Column="1" Fill="{StaticResource PrimaryHueMidBrush}" MouseDown="TextBlock_MouseDown"></Rectangle>
-            <TextBlock Grid.Column="1" MouseDown="TextBlock_MouseDown" Text="Результаты" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Champagne &amp; Limousines" />
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}"
+                    <materialDesign:PackIcon Kind="ArrowBack"/>
+                </Button>
+                <Rectangle Width="1000" Grid.Column="1" Fill="{StaticResource PrimaryHueMidBrush}" MouseDown="TextBlock_MouseDown"></Rectangle>
+                <TextBlock Grid.Column="1" 
+                           MouseDown="TextBlock_MouseDown" 
+                           Text="Результаты" 
+                           Style="{StaticResource AppHeaderTitleStyle}" />
+                <Button HorizontalAlignment="Right" 
+                        VerticalAlignment="Center" 
+                        Grid.Column="2"
                     Click="Minimize_Click">
-                <materialDesign:PackIcon Kind="WindowMinimize"/>
-            </Button>
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="3" Background="{x:Null}" BorderBrush="{x:Null}"
-                    Click="Close_Click">
-                <materialDesign:PackIcon Kind="WindowClose"/>
-            </Button>
-        </Grid>
-        <Grid Margin="10" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <ListBox Grid.Column="0" 
+                    <materialDesign:PackIcon Kind="WindowMinimize"/>
+                </Button>
+                <Button HorizontalAlignment="Right" 
+                        VerticalAlignment="Center" 
+                        Grid.Column="3"
+                        Click="Close_Click">
+                    <materialDesign:PackIcon Kind="WindowClose"/>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border  BorderBrush= "{StaticResource PrimaryHueMidBrush}" 
+                         Margin="10"
+                         BorderThickness="1" >
+                    <ListBox Grid.Column="0"
+                     HorizontalContentAlignment="Stretch"
                      ItemsSource="{Binding Path=Results}"
                      SelectedItem="{Binding Path=SelectedItem}"
                      ItemTemplate="{StaticResource ListItemTemplate}">
-            </ListBox>
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Grid.Row="0"
+                    </ListBox>
+                </Border>
+                <Border  BorderBrush= "{StaticResource PrimaryHueMidBrush}" 
+                         Margin="10"
+                         BorderThickness="1"
+                         Grid.Column="1">
+                    <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                                <Setter Property="Margin" Value="10"/>
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0"
+                        Margin="10"
                         Style="{StaticResource MaterialDesignFloatingActionButton}"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="{StaticResource PrimaryHueDarkBrush}"
-                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                        VerticalAlignment="Bottom"
+                        Background="{StaticResource PrimaryHueMidBrush}"
+                        ToolTip="Открыть файл"
                         Click="File1_Click">
-                    <materialDesign:PackIcon Height="32" Width="32" Kind="File"/>
-                </Button>
-                <TextBlock Grid.Column="1" Grid.Row="0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Style="{StaticResource MaterialDesignHeadline2TextBlock}" Text="{Binding Path=SelectedItem.SimilarityRate, StringFormat=' {0}%'}"/>
-                <Button Grid.Column="2" Grid.Row="0"
+                            <materialDesign:PackIcon Height="{StaticResource AppMidIcon}" 
+                                                     Width="{StaticResource AppMidIcon}" Kind="File"/>
+                        </Button>
+                        <TextBlock Grid.Column="1" Grid.Row="0"
+                           VerticalAlignment="Bottom"
+                           Style="{StaticResource MaterialDesignHeadline2TextBlock}" 
+                           FontSize="{StaticResource AppMidIcon}"
+                           Text="{Binding Path=SelectedItem.SimilarityRate, StringFormat=' {0}%'}"/>
+                        <Button Grid.Column="3" Grid.Row="0"
+                                Margin="10"
                         Style="{StaticResource MaterialDesignFloatingActionButton}"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                        VerticalAlignment="Bottom"
+                        ToolTip="Открыть файл"
                         Click="File2_Click">
-                    <materialDesign:PackIcon Height="32" Width="32" Kind="File"/>
-                </Button>
-                <TextBlock HorizontalAlignment="Center" 
-                           Grid.Column="0" Grid.Row="1" Text="{Binding Path=SelectedItem.File1.Path}"
-                           TextWrapping="WrapWithOverflow"
-                           FontSize="20"
-                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"></TextBlock>
-                <TextBlock HorizontalAlignment="Center" 
-                           Grid.Column="2" Grid.Row="1" Text="{Binding Path=SelectedItem.File2.Path}"
-                           TextWrapping="WrapWithOverflow"
-                           FontSize="20"
-                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"></TextBlock>
-                <TextBlock HorizontalAlignment="Center" 
-                           Grid.Column="0" Grid.Row="2" Text="{Binding Path=SelectedItem.File1Date}"
-                           FontSize="20"
-                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"></TextBlock>
-                <TextBlock HorizontalAlignment="Center" 
-                           Grid.Column="2" Grid.Row="2" Text="{Binding Path=SelectedItem.File2Date}"
-                           FontSize="20"
-                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"></TextBlock>
+                            <materialDesign:PackIcon Height="{StaticResource AppMidIcon}" 
+                                                     Width="{StaticResource AppMidIcon}" Kind="File"/>
+                        </Button>
+                        <TextBlock
+                           Grid.Column="0" Grid.Row="1" 
+                           Text="{Binding Path=SelectedItem.File1.Path}"/>
+                        <TextBlock
+                           Grid.Column="3" Grid.Row="1" 
+                           Text="{Binding Path=SelectedItem.File2.Path}"/>
+                        <TextBlock
+                           Grid.Column="0" Grid.Row="2" 
+                           Text="{Binding Path=SelectedItem.File1.DateTimeStr}"/>
+                        <TextBlock
+                           Grid.Column="3" Grid.Row="2" 
+                           Text="{Binding Path=SelectedItem.File2.DateTimeStr}"/>
+                        <TextBlock  Grid.ColumnSpan="3" 
+                                    HorizontalAlignment="Center"
+                                    Grid.Row="3" Margin="8,50,8,0" Width="450">Нажмите на иконку файла, чтобы открыть его</TextBlock>
+                    </Grid>
+                </Border>
             </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </Window>
