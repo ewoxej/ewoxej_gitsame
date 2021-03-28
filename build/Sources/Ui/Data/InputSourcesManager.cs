@@ -8,10 +8,10 @@ using GitSame.Analyzer;
 using GitSame;
 
 using System.Collections.ObjectModel;
-using static ewoxej_gitsame.Models.InputSource;
+using static GitSame.Models.InputSource;
 using System.Data.Entity;
 
-namespace ewoxej_gitsame
+namespace GitSame
 {
     public class InputSourcesManager
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ewoxej_gitsame.Models
+namespace GitSame.Models
 {
     public class InputSource
     {

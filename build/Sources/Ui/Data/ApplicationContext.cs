@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 
-using ewoxej_gitsame.Sources;
-using ewoxej_gitsame.Models;
+using GitSame.Models;
 using System.Data.SQLite;
 
-namespace ewoxej_gitsame
+namespace GitSame
 {
     public class ApplicationContext : DbContext
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ewoxej_gitsame;
+using GitSame;
 namespace GitSame.Analyzer
 {
     class Comparator

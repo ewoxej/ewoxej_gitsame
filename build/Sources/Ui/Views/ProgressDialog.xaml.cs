@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using ewoxej_gitsame;
+using GitSame;
 
-namespace ewoxej_gitsame.Sources.Ui.Views
+namespace GitSame
 {
     /// <summary>
     /// Логика взаимодействия для ProgressDialog.xaml

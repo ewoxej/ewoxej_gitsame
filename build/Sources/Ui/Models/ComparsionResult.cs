@@ -9,7 +9,7 @@ using GitSame;
 using GitSame.Analyzer;
 using GitSame.Analyzer.FileDescriptions;
 
-namespace ewoxej_gitsame.Models
+namespace GitSame.Models
 {
     public class ComparsionResult
     {

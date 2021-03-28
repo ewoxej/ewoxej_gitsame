@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using ewoxej_gitsame.Models;
+using GitSame.Models;
 
-namespace ewoxej_gitsame
+namespace GitSame
 {
     public class SourcesViewModel : INotifyPropertyChanged
     {

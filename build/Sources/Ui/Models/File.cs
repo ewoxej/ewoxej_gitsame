@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ewoxej_gitsame.Models
+namespace GitSame.Models
 {
     public class File : INotifyPropertyChanged
 	{

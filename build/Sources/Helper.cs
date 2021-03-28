@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Data.SQLite;
 
-namespace ewoxej_gitsame
+namespace GitSame
 {
     public class Helper
     {

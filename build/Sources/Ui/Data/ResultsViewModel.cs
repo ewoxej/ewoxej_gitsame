@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ewoxej_gitsame.Models;
-namespace ewoxej_gitsame
+using GitSame.Models;
+namespace GitSame
 {
     class ResultsViewModel
     {

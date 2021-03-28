@@ -14,9 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-using ewoxej_gitsame.Models;
+using GitSame.Models;
 
-namespace ewoxej_gitsame
+namespace GitSame
 {
     /// <summary>
     /// Логика взаимодействия для AddSourceDialog.xaml

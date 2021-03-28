@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Json;
 
-namespace ewoxej_gitsame
+namespace GitSame
 {
         [DataContract]
         public class Settings

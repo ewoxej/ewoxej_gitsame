@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using GitSame.Analyzer.FileDescriptions;
 
-using ewoxej_gitsame;
+using GitSame;
 namespace GitSame.Analyzer
 {
     public class DescriptionGenerator

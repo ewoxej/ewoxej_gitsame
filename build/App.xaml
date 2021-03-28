@@ -1,8 +1,8 @@
-﻿<Application x:Class="ewoxej_gitsame.App"
+﻿<Application x:Class="GitSame.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
-             xmlns:local="clr-namespace:ewoxej_gitsame"
+             xmlns:local="clr-namespace:GitSame"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              StartupUri="Sources/Ui/Views/MainWindow.xaml">

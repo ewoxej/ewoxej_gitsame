@@ -13,9 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ewoxej_gitsame.Sources.Ui.Views;
 
-namespace ewoxej_gitsame
+namespace GitSame
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml

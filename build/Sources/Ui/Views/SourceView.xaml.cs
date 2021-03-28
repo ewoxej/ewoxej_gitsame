@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ewoxej_gitsame
+namespace GitSame
 {
     /// <summary>
     /// Логика взаимодействия для SourceView.xaml
